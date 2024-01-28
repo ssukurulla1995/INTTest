@@ -1,0 +1,116 @@
+﻿@model List<INTTest.Models.ListViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<div class="form-container-fluid">
+    <h2>Invoice Form</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <h5 for="Partymaster" class="form-label">Party Name</h5>
+                <select class="form-select" id="Partymaster" name="Partymaster">
+                    <option selected value="">Select Party Name</option>
+                    @foreach (var party in Model)
+                    {
+                        foreach (var item in party.partymasters)
+                        {
+                            <option value="@item.PARTY_ID">@item.PARTY_NAME</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label for="InvoiceNo" class="form-label">Invoice NO.</label>
+                        <input type="number" class="form-control" name="InvoiceNo" id="InvoicenoInput1" placeholder="Enter Envoice No.">
+                    </div>
+                </div>
+            </div>.
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label for="invoiceDate" class="form-label">Invoice NO.</label>
+                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" name="invoiceDate" id="invoiceDate">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover" id="dynamic-table">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Item Name</th>
+                        <th>Units</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--adding more rows dynamically using jQuery -->
+                    <tr class="dynamic-row">
+                        <td>1</td>
+                        <td>
+                            <select class="form-select" name="itrmname">
+                                <option value="" selected>Select Item Name</option>
+                                @foreach (var party in Model)
+                                {
+                                    foreach (var item in party.itemmasters)
+                                    {
+                                        <option value="@item.ITEM_ID">@item.ITEM_NAME</option>
+                                    }
+                                }
+                                
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" name="itemunit" disabled>
+                                <option value="" s selected>Select Unit</option>
+                                @foreach (var party in Model)
+                                {
+                                    foreach (var item in party.uommasters)
+                                    {
+                                        <option value="@item.UOM_ID">@item.UOM_NAME</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td><input type="number" class="form-control data-input" name="qunt" /></td>
+                        <td><input type="number" class="form-control data-input" name="rate" /></td>
+                        <td><input type="number" class="form-control data-input" name="total" /></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: right;">Total Amount</td>
+                        <td><input type="number" class="form-control" id="totalAmount" readonly /></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="d-flex justify-content-end">
+                <button type="submit" id="saveButton" class="btn btn-primary mx-5">Submit</button>
+                <button type="submit" onclick="location.reload(true);" class="btn btn-outline-secondary">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

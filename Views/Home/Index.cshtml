@@ -1,0 +1,503 @@
+﻿@model Tuple<List<itemmaster>, List<partymaster>, List<uommaster>, List<Dochdr>, List<Docdet>>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<div class="form-container-fluid">
+    <h2>Invoice Form</h2>
+   
+       <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <h5 for="Partymaster" class="form-label">Party Name</h5>
+                    <select class="form-select" id="Partymaster" name="Partymaster" required>
+                        <option selected value="">Select Party Name</option>
+                        @foreach (var party in Model.Item2)
+                        {
+                            <option value="@party.PARTY_ID" >@party.PARTY_NAME</option>
+                           
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="InvoiceNo" class="form-label">Invoice NO.</label>
+                            <input type="number" class="form-control" name="InvoiceNo" id="InvoicenoInput1" placeholder="Enter Envoice No." required>
+                        </div>
+                    </div>
+                </div>.
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="invoiceDate" class="form-label">Invoice NO.</label>
+                            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" name="invoiceDate" id="invoiceDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover" id="dynamic-table">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Item Name</th>
+                            <th>Units</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--adding more rows dynamically using jQuery -->
+                        <tr class="dynamic-row">
+                            <td>1</td>
+                            <td>
+                                <select class="form-select" name="itrmname">
+                                    <option value="" selected>Select Item Name</option>
+                                    @foreach (var party in Model.Item1)
+                                    {
+                                        <option value="@party.ITEM_ID">@party.ITEM_NAME </option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="itemunit" disabled>
+                                    <option value=""s selected>Select Unit</option>
+                                    @foreach (var party in Model.Item3)
+                                    {
+                                        <option value="@party.UOM_ID">@party.UOM_NAME</option>
+                                    }
+                                </select>
+                            </td>
+                            <td><input type="number" class="form-control data-input" name="qunt" /></td>
+                            <td><input type="number" class="form-control data-input" name="rate" /></td>
+                            <td><input type="number" class="form-control data-input" name="total" disabled /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" style="text-align: right;">Total Amount</td>
+                            <td><input type="number" class="form-control" id="totalAmount" readonly /></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="d-flex justify-content-end">
+                <button type="submit" id="saveButton" class="btn btn-primary mx-5">Submit</button>
+                <button type="submit" onclick="location.reload(true);" class="btn btn-outline-secondary">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+        </div>
+    
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>DOCHDR Table</h2>
+            <table border="1" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>DochdrId</th>
+                        <th>PartyId</th>
+                        <th>InvoiceNo</th>
+                        <th>InvoiceDate</th>
+                        <th>TotalAmount</th>
+                        <th>User</th>
+                        <th>DefaultDateTime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example row, replace with actual data from your application -->
+                    @foreach (var item in Model.Item4)
+                    {
+                        <tr>
+                            <td>@item.HDRAutoID</td>
+                            <td>@item.Party_ID</td>
+                            <td>@item.Invoice_No</td>
+                            <td>@item.InvoiceDate</td>
+                            <td>@item.totalamount</td>
+                            <td>@item.User</td>
+                            <td>@item.DefaultDateTime</td>
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h2>DOCDET Table</h2>
+            <table border="1" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>DocdetId</th>
+                        <th>HdrautoId</th>
+                        <th>SrNo</th>
+                        <th>ItemId</th>
+                        <th>UomId</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example row, replace with actual data from your application -->
+                    @foreach (var item in Model.Item5)
+                    {
+                        <tr>
+                            <td>@item.DocDetail_ID</td>
+                            <td>@item.HDRAuto_ID</td>
+                            <td>@item.SrNo</td>
+                            <td>@item.Item_ID</td>
+                            <td>@item.UOM_ID</td>
+                            <td>@item.Qty</td>
+                            <td>@item.Rate</td>
+                            <td>@item.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    $(document).ready(function () {
+        var totalrate = 0;
+        $('#dynamic-table tbody').on('input', 'tr .data-input', function () {
+            var isLastRow = $(this).closest('tr').is(':last-child');
+
+            if (isLastRow) {
+                var rowCount = $('#dynamic-table tbody tr').length;
+                var newRow = $('#dynamic-table tbody tr:first').clone(true);
+                newRow.find('td:first').text(rowCount + 1);
+                newRow.find('td select').val(''); 
+                newRow.find('td .data-input').val(''); 
+                
+
+                $('#dynamic-table tbody').append(newRow);
+            }
+
+            updateRowValues($(this).closest('tr'));
+            calculateTotal();
+            
+        });
+        $('#dynamic-table tbody').on('change', 'tr td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(1) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(2) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(3) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(4) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(5) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(6) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(7) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(8) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+        $('#dynamic-table tbody').on('change', 'tr:eq(9) td:eq(1) select.form-select', function () {
+            var selectedItemName = $(this).val();
+            var unitDropdown = $(this).closest('tr').find('td:eq(2) select.form-select');
+
+           
+            var rowNumber = $(this).closest('tr').index() + 1;
+            
+
+            
+            $.ajax({
+                url: 'Home/GetuomData', 
+                method: 'GET',
+                data: { itemName: selectedItemName },
+                success: function (data) {
+                    unitDropdown.val(data[0].uoM_ID).change();
+                    unitDropdown.trigger('input');
+                },
+                error: function () {
+                    console.error('Error fetching unit value from the server.');
+                }
+            });
+        });
+
+        $('#dynamic-table tbody tr').each(function () {
+            updateRowValues($(this));
+        });
+
+        function updateRowValues(row) {
+            var quantity = parseFloat(row.find('td:eq(3) .data-input').val()) || 0;
+            var rate = parseFloat(row.find('td:eq(4) .data-input').val()) || 0;
+            
+            var value = rate * quantity;
+            
+            row.find('td:eq(5) .data-input').val(value.toFixed(2));
+      
+        }
+
+        function calculateTotal() {
+            var total = 0;
+
+            $('#dynamic-table tbody tr').each(function () {
+                updateRowValues($(this));
+                var value = parseFloat($(this).find('td:eq(5) .data-input').val()) || 0;
+                total += value;
+            });
+            $('#totalAmount').val(total.toFixed(2));
+        }
+       
+    });
+
+    $('#saveButton').on('click', function () {
+        var formData = {
+            PartyName: $('#Partymaster').val(),
+            InvoiceNo: $('#InvoicenoInput1').val(),
+            InvoiceDate: $('#invoiceDate').val(),
+            TotalAmount: $('#totalAmount').val(),
+            TableData: []  
+        };
+
+        $('#dynamic-table tbody tr').each(function () {
+            var rowData = {
+                Srno: $(this).find('td:eq(0)').text(),
+                ItemName: $(this).find('td:eq(1) select.form-select').val(),
+                UnitName: $(this).find('td:eq(2) select.form-select').val(),
+                Quantity: $(this).find('td:eq(3) .data-input').val(),
+                Rate: $(this).find('td:eq(4) .data-input').val(),
+                Value: $(this).find('td:eq(5) .data-input').val()
+            };
+
+            formData.TableData.push(rowData);
+        });
+
+        console.log(JSON.stringify(formData));
+
+        $.ajax({
+            url: '@Url.Action("SaveInvoice", "Home")', 
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+
+                    });
+
+                    location.reload();
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error!',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+
+                console.log('Data successfully saved.');
+            },
+            error: function () {
+                console.error('Error saving data.');
+            }
+        });
+    });
+
+</script>
