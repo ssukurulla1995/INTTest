@@ -1,42 +1,39 @@
-Dynamic Table Generator and Data Persistence using .NET 8, MVC, AJAX, and SQL Server
-Project Overview
-This project aims to create a dynamic table generator and store data in a SQL Server database using the latest technologies such as .NET 8, MVC, AJAX, and SQL Server. The system is designed to efficiently manage invoices and their details.
+Project Overview:
+This project is designed to create a dynamic order management system using the latest technologies such as .NET 8, MVC, AJAX, and SQL Server. It allows for efficient creation, management, and storage of order details in a database.
 
-Features
+Features:
 1. Dynamic Table Generation
-Invoice Form: Allows users to fill in invoice details dynamically.
-Select Party Name from a list.
-Enter Invoice No.
-Choose items from a dynamic dropdown list.
-Select units for each item.
-Specify quantity, rate, and view calculated values.
-2. Database Schema
-DOCHDR Table:
-
-DochdrId: Unique identifier for each invoice header.
-PartyId: Corresponds to the selected party.
-InvoiceNo: Invoice number.
-InvoiceDate: Date of the invoice.
-TotalAmount: Total amount for the invoice.
-User: User responsible for the invoice.
-DefaultDateTime: Date and time of the invoice creation.
-DOCDET Table:
-
-DocdetId: Unique identifier for each invoice detail.
-HdrautoId: Foreign key linking to DochdrId.
-SrNo: Serial number for items.
-ItemId: Identifier for each item.
-UomId: Unit of measure for the item.
-Qty: Quantity of the item.
-Rate: Rate of the item.
-Value: Calculated value for the item.
-3. Technologies Used
-.NET 8: Utilizing the latest features and improvements in the .NET framework.
-MVC (Model-View-Controller): A design pattern for separating concerns and improving code organization.
-AJAX (Asynchronous JavaScript and XML): Enhancing user experience by allowing asynchronous data retrieval.
-SQL Server Database: Storing and managing invoice data efficiently.
-Getting Started
-Clone the repository: git clone <repository_url>
-Set up the database: Execute SQL scripts to create the necessary tables.
-Configure the connection string: Update the connection string in the project settings.
-Run the application: Start the application using .NET CLI or Visual Studio.
+Order Form: Allows users to dynamically fill in order details.
+Select Customer Name from a list.
+Enter Order No.
+Choose products from a dynamic dropdown list.
+Select units for each product.
+Specify quantity, rate, and view calculated values (e.g., subtotal).
+2. Database Schema:
+Order Header (ORDHDR):
+OrdHdrId: Unique identifier for each order header.
+CustomerId: Corresponds to the selected customer.
+OrderNo: Order number.
+OrderDate: Date of the order.
+TotalAmount: Total amount for the order.
+User: User responsible for creating the order.
+DefaultDateTime: Date and time of order creation.
+Order Details (ORDDET):
+OrdDetId: Unique identifier for each order detail.
+HdrAutoId: Foreign key linking to OrdHdrId.
+SrNo: Serial number for products.
+ProductId: Identifier for each product.
+UomId: Unit of measure for the product.
+Qty: Quantity of the product.
+Rate: Rate of the product.
+Value: Calculated value for the product.
+3. Technologies Used:
+.NET 8: Leveraging the latest framework for improved performance and features.
+MVC (Model-View-Controller): Separating concerns for better code organization and maintainability.
+AJAX: Enhancing the user experience with asynchronous data updates.
+SQL Server Database: Efficiently storing and managing order data.
+Getting Started:
+Clone the repository: git clone 
+Set up the database: Execute the provided SQL scripts to create the necessary tables.
+Configure the connection string: Update the connection string in the project settings to point to your SQL Server instance.
+Run the application: Use the .NET CLI or Visual Studio to start the application.
